@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Orbitron, Open_Sans } from "next/font/google";
+import { useRouter } from "next/navigation";
 import { redirect } from "next/navigation";
 
 const orbitron = Orbitron({
@@ -23,9 +24,11 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  if (true) {
-    redirect("/login");
-  }
+  const router = useRouter();
+  // if (true) {
+  //   redirect("/login");
+  // }
+  console.log();
 
   return (
     <html lang="en">
