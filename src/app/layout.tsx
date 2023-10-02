@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Orbitron, Open_Sans } from "next/font/google";
-import { redirect } from "next/navigation";
+import AuthProvider from "./AuthProvider";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -18,19 +18,17 @@ export const metadata: Metadata = {
   description: "Creating random teams to do random stuff",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  if (true) {
-    redirect("/login");
-  }
-
   return (
     <html lang="en">
-      <body className={`${orbitron.variable} ${openSans.variable}`}>
-        {children}
+      <body
+        className={`${orbitron.variable} ${openSans.variable} dark min-w-full min-h-screen pt-5 pb-5`}
+      >
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
