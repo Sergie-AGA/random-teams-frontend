@@ -8,6 +8,7 @@ export default function LoginFormContainer() {
   const [provider, setProvider] = useState("");
 
   const handleProviderSelect = (selectedProvider: string) => {
+    console.log(1);
     setProvider(selectedProvider);
   };
 

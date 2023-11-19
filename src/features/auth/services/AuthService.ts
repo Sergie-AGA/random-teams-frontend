@@ -1,42 +1,36 @@
-import { Fetch } from "@/features/auth/services/FetchService";
+import { fetch } from "@/features/auth/services/FetchService";
 import { IEndpoints } from "@/features/auth/services/FetchService";
 import z from "zod";
 
-const registerBodySchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
+// Schemas
+export const registerBodySchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "This field has to be filled." })
+    .email("Invalid e-mail format."),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 character slong." }),
 });
-type RegisterBodySchema = z.infer<typeof registerBodySchema>;
+export type RegisterBodySchema = z.infer<typeof registerBodySchema>;
 
-export class AuthHandler extends Fetch {
+// Handler
+export class AuthHandler {
   static async register(data: RegisterBodySchema) {
-    const { url, method } = authEndpoints.register;
-
-    const response = await this.fetch({
-      url,
-      method,
-      data: {
-        body: data,
-      },
+    return await fetch({
+      ...authEndpoints.register,
+      data,
     });
-
-    return response;
   }
   static async login(data: RegisterBodySchema) {
-    const { url, method } = authEndpoints.register;
-
-    const response = await this.fetch({
-      url,
-      method,
-      data: {
-        body: data,
-      },
+    return await fetch({
+      ...authEndpoints.login,
+      data,
     });
-
-    return response;
   }
 }
 
+// Endpoints
 const authEndpoints: IEndpoints = {
   register: {
     url: "http://localhost:3333/auth/register",

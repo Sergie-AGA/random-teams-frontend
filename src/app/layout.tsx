@@ -1,9 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Orbitron, Open_Sans } from "next/font/google";
-import AuthProvider from "./AuthProvider";
-import { queryClient } from "../lib/react-query";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { Providers } from "./providers";
 
 const orbitron = Orbitron({
   subsets: ["latin"],
@@ -27,13 +25,11 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <QueryClientProvider client={queryClient}>
-        <body
-          className={`${orbitron.variable} ${openSans.variable} dark min-w-full min-h-screen pt-5 pb-5`}
-        >
-          <AuthProvider>{children}</AuthProvider>
-        </body>
-      </QueryClientProvider>
+      <body
+        className={`${orbitron.variable} ${openSans.variable} dark min-w-full min-h-screen pt-5 pb-5`}
+      >
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

@@ -1,8 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,33 +15,39 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { TriangleLeftIcon, FilePlusIcon } from "@radix-ui/react-icons";
-
-const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "This field has to be filled." })
-    .email("Invalid e-mail format."),
-  password: z.string().min(1, { message: "This field has to be filled." }),
-});
+import {
+  registerBodySchema,
+  RegisterBodySchema,
+} from "../../services/AuthService";
+import { AuthHandler } from "../../services/AuthService";
+import { ActionButton } from "@/components/Buttons/ActionButton";
+import { useMutation } from "@tanstack/react-query";
+import { ServerError } from "../../services/FetchService";
 
 interface LoginFormProps {
   returnAction: () => void;
 }
 
 export function LoginForm({ returnAction }: LoginFormProps) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<RegisterBodySchema>({
+    resolver: zodResolver(registerBodySchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const { status, data, error, mutate } = useMutation<
+    unknown,
+    ServerError,
+    RegisterBodySchema
+  >({
+    mutationKey: ["login"],
+    mutationFn: AuthHandler.login,
+  });
+
+  async function onSubmit(values: RegisterBodySchema) {
+    mutate(values);
   }
 
   return (
@@ -84,9 +88,15 @@ export function LoginForm({ returnAction }: LoginFormProps) {
             </FormItem>
           )}
         />
-        <Button className="w-full font-bold" type="submit">
-          LOG IN
-        </Button>
+        <ActionButton
+          classes="w-full font-bold"
+          type="submit"
+          isLoading={status == "pending"}
+          text="LOG IN"
+        />
+        <p className="text-destructive text-center">
+          {error ? error.response?.data?.error : ""}
+        </p>
 
         <Separator />
         <p className="flex items-center hover:underline cursor-pointer">
