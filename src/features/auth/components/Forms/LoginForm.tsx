@@ -15,10 +15,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
 import { TriangleLeftIcon, FilePlusIcon } from "@radix-ui/react-icons";
-import {
-  registerBodySchema,
-  RegisterBodySchema,
-} from "../../services/AuthService";
+import { LoginBodySchema, loginBodySchema } from "../../services/AuthService";
 import { AuthHandler } from "../../services/AuthService";
 import { ActionButton } from "@/components/Buttons/ActionButton";
 import { useMutation } from "@tanstack/react-query";
@@ -29,8 +26,8 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ returnAction }: LoginFormProps) {
-  const form = useForm<RegisterBodySchema>({
-    resolver: zodResolver(registerBodySchema),
+  const form = useForm<LoginBodySchema>({
+    resolver: zodResolver(loginBodySchema),
     defaultValues: {
       email: "",
       password: "",
@@ -40,13 +37,13 @@ export function LoginForm({ returnAction }: LoginFormProps) {
   const { status, data, error, mutate } = useMutation<
     unknown,
     ServerError,
-    RegisterBodySchema
+    LoginBodySchema
   >({
     mutationKey: ["login"],
     mutationFn: AuthHandler.login,
   });
 
-  async function onSubmit(values: RegisterBodySchema) {
+  async function onSubmit(values: LoginBodySchema) {
     mutate(values);
   }
 
@@ -88,6 +85,7 @@ export function LoginForm({ returnAction }: LoginFormProps) {
             </FormItem>
           )}
         />
+
         <ActionButton
           classes="w-full font-bold"
           type="submit"

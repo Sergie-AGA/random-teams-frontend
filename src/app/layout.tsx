@@ -14,7 +14,7 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Random Teams",
+  title: "KL Teams",
   description: "Creating random teams to do random stuff",
 };
 

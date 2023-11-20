@@ -21,7 +21,7 @@ export default function LoginProviders({
           onClick={() => onProviderSelect("randomteams")}
         >
           <MixIcon className="mr-2 h-4 w-4" />
-          Random Teams Account
+          KL Teams Account
         </Button>
       </CardContent>
     </Card>

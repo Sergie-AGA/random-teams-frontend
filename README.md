@@ -1,4 +1,4 @@
-# Random Teams
+# KL Teams
 
 This project aims to create spaces where you can create and manage teams of people to share media with them and provide some interactive features
 

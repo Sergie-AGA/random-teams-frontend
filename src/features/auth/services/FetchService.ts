@@ -4,6 +4,7 @@ export type ServerError = {
     data: {
       error: string;
     };
+    statusCode: number;
   };
 };
 

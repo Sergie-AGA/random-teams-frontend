@@ -1,3 +1,4 @@
+import Logo from "@/components/Logo/Logo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import RegistrationFormContainer from "@/features/auth/components/Forms/RegistrationFormContainer";
 
@@ -7,7 +8,9 @@ export default function Register() {
       <section className="flex gap-4 w-full justify-center max-w-screen-lg flex-col md:flex-row items-center">
         <Card>
           <CardHeader>
-            <CardTitle className="text-center">Login</CardTitle>
+            <div className="text-center">
+              <Logo />
+            </div>
           </CardHeader>
           <CardContent>
             <RegistrationFormContainer />
