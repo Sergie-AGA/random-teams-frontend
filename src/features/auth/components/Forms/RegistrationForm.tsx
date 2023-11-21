@@ -23,7 +23,21 @@ import { ActionButton } from "@/components/Buttons/ActionButton";
 import { useMutation } from "@tanstack/react-query";
 import { ServerError } from "../../services/FetchService";
 
-export function RegistrationForm() {
+interface RegistrationResponse {
+  data: {
+    attributes: {
+      email: string;
+    };
+  };
+}
+
+interface RegistrationFormProps {
+  handleRegistration: (email: string) => void;
+}
+
+export function RegistrationForm({
+  handleRegistration,
+}: RegistrationFormProps) {
   const form = useForm<RegisterBodySchema>({
     resolver: zodResolver(registerBodySchema),
     defaultValues: {
@@ -40,7 +54,17 @@ export function RegistrationForm() {
   >({
     mutationKey: ["register"],
     mutationFn: AuthHandler.register,
+    onSuccess: (response) => {
+      const registrationResponse = response as RegistrationResponse;
+      console.log(
+        "%c Logged!",
+        "background: #01579b; color: white; padding: 2px 4px; border-radius: 4px"
+      );
+      console.log(response);
+      handleRegistration(registrationResponse.data.attributes.email);
+    },
   });
+
   async function onSubmit(values: RegisterBodySchema) {
     mutate(values);
   }
